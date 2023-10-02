@@ -1,7 +1,7 @@
 /*********************************************
 
             Практическая работа №7
-                  Вариант №3
+                  Вариант №6
 
 **********************************************/
 
@@ -11,8 +11,8 @@
 #include <malloc.h>
 #include <stdbool.h>
 
-#define TOTAL 200
-#define MIN 0
+#define TOTAL 100
+#define MIN -100
 #define MAX 100
 
 void append(int** arr, unsigned long* size, int value) {
@@ -22,17 +22,24 @@ void append(int** arr, unsigned long* size, int value) {
 }
 
 bool checkSeq(int* arr, unsigned long size) {
-    if (size / sizeof(int) < 2) return false;
-    for (int i = 1; i < size / sizeof(int); ++i) {
-        if (arr[i] < arr[i - 1]) return false;
+    for (int i = 0; i < size / sizeof(int); ++i) {
+        if (arr[i] <= 0) return false;
     }
     return true;
+}
+
+int findSum(int* arr, unsigned long size) {
+    int result = 0;
+    for (int i = 0; i < size / sizeof(int); ++i) {
+        result = result + arr[i];
+    }
+    return result;
 }
 
 int main(void) {
     srand(time(NULL));
     int nums[TOTAL];
-    int c = 0;
+    int maxSum = -1;
 
     for (int i = 0; i < TOTAL; ++i) {
         nums[i] = rand() % (MAX - MIN + 1) + MIN;
@@ -43,7 +50,7 @@ int main(void) {
     unsigned long size = 0;
 
     for (int i = 0; i < TOTAL - 1; ++i) {
-        for (int j = i + 1; j < TOTAL; ++j) {
+        for (int j = i; j < TOTAL; ++j) {
             arr = NULL;
             size = 0;
 
@@ -51,11 +58,14 @@ int main(void) {
                 append(&arr, &size, nums[k]);
             }
 
-            if (checkSeq(arr, size)) c++;
+            if (checkSeq(arr, size)) {
+                int res = findSum(arr, size);
+                if (res > maxSum) maxSum = res;
+            }
             free(arr);
         }
     }
 
-    printf("\nSequences: %d", c);
+    printf("\nMax sum: %d", maxSum);
     return 0;
 }
