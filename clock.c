@@ -13,11 +13,12 @@
 #define H 30
 #define PADDING_LEFT 10
 #define PADDING_TOP 5
-#define SECONDS_LEN 28
-#define MINUTE_LEN 22
+#define SECONDS_LEN 26
+#define MINUTE_LEN 18
 #define HOUR_LEN 10
 #define PI 3.14159265359
 #define STEPS 30
+#define CLOCKROUND_RAD 29
 
 void sleep_ms(int milliseconds) {
 #ifdef WIN32
@@ -101,7 +102,9 @@ int main(int argc, char* argv[]) {
     time_t now;
     struct tm *tm;
     int sec, minute, hour;
-    
+    double angle;
+    int xcol, xrow;
+
     for (;;) {
         ltime = time_ms();
         now = time(0);
@@ -112,8 +115,15 @@ int main(int argc, char* argv[]) {
         char pad[H][W];
         for (int i = 0; i < H; ++i) {
             for (int j = 0; j < W; ++j) {
-                pad[i][j] = '.';
+                pad[i][j] = ' ';
             }
+        }
+
+        for (int i = 0; i < 360; ++i) {
+            angle = i * (PI / 180);
+            xcol = round((H / 2) - round(CLOCKROUND_RAD / (W / H) * sin(angle)));
+            xrow = round((W / 2) + round(CLOCKROUND_RAD * cos(angle)));
+            pad[xcol][xrow] = 'o';
         }
         draw_seconds(&pad, sec, SECONDS_LEN, 'X');
         draw_seconds(&pad, minute, MINUTE_LEN, 'O');
