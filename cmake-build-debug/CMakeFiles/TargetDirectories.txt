@@ -1,0 +1,3 @@
+C:/Users/nikol/Documents/GitHub/MIREA_PP_1/cmake-build-debug/CMakeFiles/MIREA_PP_1.dir
+C:/Users/nikol/Documents/GitHub/MIREA_PP_1/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/nikol/Documents/GitHub/MIREA_PP_1/cmake-build-debug/CMakeFiles/rebuild_cache.dir

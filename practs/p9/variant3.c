@@ -11,23 +11,20 @@
 #include <malloc.h>
 #include <stdbool.h>
 
-#define TOTAL 100
-#define MIN -100
-#define MAX 100
+#define TOTAL 10
+#define MIN 0
+#define MAX 10
 
 void append(int** arr, unsigned long* size, int value) {
     *size = *size + sizeof(int);
     *arr = (int*)realloc(*arr, *size);
-    (*arr)[(*size / sizeof(int)) - 1] = value;  
+    (*arr)[(*size / sizeof(int)) - 1] = value;
 }
 
-int* findAll(int* arr, unsigned long size, int element) {
-    int *result;
-    unsigned long resSize = 0;
-    for (int i = 0; i < size / sizeof(int); ++i) {
-        if (arr[i] == element) append(&result, &resSize, i);
+void findAll(int** arr, unsigned long* size, int element) {
+    for (int i = 0; i < *size / sizeof(int); ++i) {
+        if (*arr[i] == element) append(arr, size, i);
     }
-    return result;
 }
 
 int main(void) {
@@ -38,10 +35,13 @@ int main(void) {
 
     for (int i = 0; i < TOTAL; ++i) {
         append(&nums, &c, rand() % (MAX - MIN + 1) + MIN);
-        printf("%4d ", nums[i]);
     }
 
-    int *occ, uns = findAll(nums, c, element);
-    for
+    int *occ;
+    unsigned long occSize = 0;
+    findAll(&occ, &occSize, element);
 
+    for (int i = 0; i < occSize / sizeof(int); ++i) {
+        printf("%4d ", occ[i]);
+    }
 }
